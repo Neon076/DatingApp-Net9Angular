@@ -8,5 +8,7 @@ public class AppUser
     public required String UserName { get; set; }
     // public String? Username { get; set; } for optional we use ?
     
+    public required byte[] PasswordHash {get; set;}
+    public required byte[] PasswordSalt { get; set; }
  
 }

@@ -20,16 +20,4 @@ public class BuggyController (DataContext dataContext): BaseApiController
 
         return thing;
     }
-    [HttpGet("server-error")]
-    public ActionResult<string> GetAuth(){
-        return "Secret Text";
-    }
-    [HttpGet("atuh")]
-    public ActionResult<string> GetAuth(){
-        return "Secret Text";
-    }
-    [HttpGet("atuh")]
-    public ActionResult<string> GetAuth(){
-        return "Secret Text";
-    }
 }

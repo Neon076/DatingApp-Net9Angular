@@ -19,20 +19,21 @@ public class AccountController(DataContext context, ITokenInterface tokenService
         if (await UserExists(resigterDTO.Username)) return BadRequest("Username Already Exists");
         using var hmac = new HMACSHA512();
 
-        var user = new AppUser
-        {
-            UserName = resigterDTO.Username,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(resigterDTO.Password)),
-            PasswordSalt = hmac.Key
-        };
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        return Ok();
+        // var user = new AppUser
+        // {
+        //     UserName = resigterDTO.Username,
+        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(resigterDTO.Password)),
+        //     PasswordSalt = hmac.Key
+        // };
+        // context.Users.Add(user);
+        // await context.SaveChangesAsync();
 
-        return new UserDto
-        {
-            Username = user.UserName,
-            Token = tokenService.CreateToken(user)
-        };
+        // return new UserDto
+        // {
+        //     Username = user.UserName,
+        //     Token = tokenService.CreateToken(user)
+        // };
     }
 
     [HttpPost("login")]

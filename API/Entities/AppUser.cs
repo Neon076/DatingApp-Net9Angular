@@ -7,8 +7,21 @@ public class AppUser
 
     public required String UserName { get; set; }
     // public String? Username { get; set; } for optional we use ?
-    
-    public required byte[] PasswordHash {get; set;}
-    public required byte[] PasswordSalt { get; set; }
- 
+
+    public byte[] PasswordHash { get; set; } = [];
+    public byte[] PasswordSalt { get; set; } = [];
+    public DateOnly DateOfBirth { get; set; }
+    public required string KnownAs { get; set; }
+    public DateTime Created { get; set; }
+    public DateTime LastActive { get; set; }
+    public required string Gender { get; set; }
+    public String? Introduction { get; set; }
+    public string? LookingFor { get; set; }
+    public required string City { get; set; }
+    public required string Country { get; set; }
+    public List<Photo> Photos { get; set; } = [];
+
+    // public int GetAge(){
+    //     return DateOfBirth.CalculateAge();
+    // }
 }

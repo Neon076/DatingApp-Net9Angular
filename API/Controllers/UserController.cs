@@ -29,16 +29,16 @@ public class UsersController(IUserRespository userRespository) : BaseApiControll
         return Ok(users);
     }
 
-    // [HttpGet("{id:int}")] // /api/users/2
+    [HttpGet("{id:int}")] // /api/users/2
 
-    // public async Task<ActionResult<AppUser>> GetUser(int id)
-    // {
-    //     var user = await userRespository.GetUserByIdAsync(id);
+    public async Task<ActionResult<MembersDto>> GetUser(int id)
+    {
+        var user = await userRespository.GetMemberByIdAsync(id);
 
-    //     if(user == null) return NotFound();
+        if(user == null) return NotFound();
 
-    //     return user;
-    // }
+        return user;
+    }
     [HttpGet("{username}")] // /api/users/{name}
 
     public async Task<ActionResult<MembersDto>> GetUser(string username)

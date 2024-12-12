@@ -32,16 +32,13 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserResposit
                     .ToListAsync();
     }
 
-    public async Task<AppUser?> GetUserByIdAsync(int id)
-    {
-        return await context.Users.FindAsync(id);
-    }
 
-    public async Task<AppUser?> GetUserByUsernameAsync(string username)
+    public async Task<MembersDto?> GetMembersAsync(string username)
     {
         return await context.Users
-        .Include(x => x.Photos)
-        .SingleOrDefaultAsync(x => x.UserName == username.ToLower());
+        .Where(x =>x.UserName == username)
+        .ProjectTo<MembersDto>(mapper.ConfigurationProvider)
+        .SingleOrDefaultAsync();
     }
 
     public async Task<bool> SaveAllAsync()
@@ -52,5 +49,18 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserResposit
     public void UpdateUser(AppUser user)
     {
         context.Entry(user).State = EntityState.Modified;
+    }
+
+    public Task<AppUser?> GetUserByUsernameAsync(string username)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<MembersDto?> GetMemberByIdAsync(int id)
+    {
+        return await context.Users
+        .Where(x => x.Id == id)
+        .ProjectTo<MembersDto>(mapper.ConfigurationProvider)
+        .SingleOrDefaultAsync();
     }
 }

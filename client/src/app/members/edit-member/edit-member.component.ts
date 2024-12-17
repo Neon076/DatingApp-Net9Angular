@@ -1,0 +1,55 @@
+import {
+  Component,
+  HostListener,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Member } from '../../_models/members';
+import { AccountService } from '../../_services/account.service';
+import { MembersService } from '../../_services/members.service';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { FormsModule, NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
+@Component({
+  selector: 'app-edit-member',
+  standalone: true,
+  imports: [TabsModule, FormsModule],
+  templateUrl: './edit-member.component.html',
+  styleUrl: './edit-member.component.css',
+})
+export class EditMemberComponent implements OnInit {
+  @ViewChild('editForm') editForm?: NgForm;
+  @HostListener('window:beforeunload', ['$event']) notify($event: any) {
+    if (this.editForm?.dirty) {
+      $event.returnValue = true;
+    }
+  }
+  member?: Member;
+  private accoutService = inject(AccountService);
+  private memberService = inject(MembersService);
+  private toastr = inject(ToastrService);
+
+  ngOnInit(): void {
+    this.loadMember();
+  }
+
+  loadMember() {
+    const user = this.accoutService.currentUser();
+    if (!user) return;
+
+    this.memberService.getMember(user.username).subscribe({
+      next: (member) => (this.member = member),
+    });
+  }
+
+  updateMember() {
+    this.memberService.updateMember(this.editForm?.value).subscribe({
+      next: (_) => {
+        this.toastr.success('Profile Upadated successfully');
+        this.editForm?.reset(this.member);
+      },
+    });
+  }
+}

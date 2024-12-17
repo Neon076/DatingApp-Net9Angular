@@ -26,11 +26,11 @@
 
       @if (accountService.currentUser()) {
       <div dropdown class="dropdown">
-        <a dropdownToggle class="dropdown-toggle text-light">Welcome {{accountService.currentUser()?.username}}</a>
+        <a dropdownToggle class="dropdown-toggle text-light" style="cursor: pointer">Welcome {{accountService.currentUser()?.username}}</a>
         <div *dropdownMenu class="dropdown-menu">
-          <a class="dropdown-item">Edit Profile</a>
+          <a routerLink="/member/edit" class="dropdown-item">Edit Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" (click)="logout()">Logout</a>
+          <a class="dropdown-item" (click)="logout()" style="cursor: pointer">Logout</a>
         </div>
       </div>
       }

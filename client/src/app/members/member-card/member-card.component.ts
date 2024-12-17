@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Member } from '../../_models/members';
 import { RouterLink } from '@angular/router';
 

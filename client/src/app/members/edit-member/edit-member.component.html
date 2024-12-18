@@ -60,8 +60,8 @@
 
 
             </tab>
-            <tab heading="Photos">
-                <p>photos will go here</p>
+            <tab heading="Edit Photos">
+                    <app-photo-editor [member]="member" (memberChange)="OnMemberChange($event)"></app-photo-editor>
             </tab>
             <tab heading="Messages">
                 <p>Messages will go here</p>

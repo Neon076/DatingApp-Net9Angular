@@ -1,0 +1,6 @@
+img{
+    max-height: 45px;
+    display: inline;
+    border: 2px white solid;
+    border-radius: 50%;
+}

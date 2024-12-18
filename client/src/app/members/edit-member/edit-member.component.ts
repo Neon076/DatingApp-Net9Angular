@@ -11,11 +11,12 @@ import { MembersService } from '../../_services/members.service';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { PhotoEditorComponent } from "../photo-editor/photo-editor.component";
 
 @Component({
   selector: 'app-edit-member',
   standalone: true,
-  imports: [TabsModule, FormsModule],
+  imports: [TabsModule, FormsModule, PhotoEditorComponent],
   templateUrl: './edit-member.component.html',
   styleUrl: './edit-member.component.css',
 })
@@ -51,5 +52,9 @@ export class EditMemberComponent implements OnInit {
         this.editForm?.reset(this.member);
       },
     });
+  }
+
+  OnMemberChange(event: Member){
+    this.member = event;
   }
 }

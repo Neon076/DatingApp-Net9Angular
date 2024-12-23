@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, JsonPipe, TextInputComponent, DatePickerComponent],
+  imports: [ReactiveFormsModule, TextInputComponent, DatePickerComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -99,7 +99,6 @@ export class RegisterComponent implements OnInit {
         this.router.navigateByUrl('/members')
       },
       error : error => console.log(error)
-
     })
   }
 
@@ -114,7 +113,7 @@ export class RegisterComponent implements OnInit {
   }
 
   private geDateOnly(dob : string | undefined){
-    if(!dob) return
+    if(!dob) return;
     return new Date(dob).toISOString().slice(0,10);
   }
 }

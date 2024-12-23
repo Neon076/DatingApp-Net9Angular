@@ -1,5 +1,3 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavComponent } from './nav/nav.component';
@@ -14,6 +12,9 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   private accountService = inject(AccountService);
 
   ngOnInit(): void {

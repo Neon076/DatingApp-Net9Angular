@@ -2,22 +2,32 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Member } from '../_models/members';
-import { of, tap } from 'rxjs';
+import { map, of, tap } from 'rxjs';
 import { Photo } from '../_models/photos';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MembersService {
+  private accountService = inject(AccountService);
   private http = inject(HttpClient);
   baseUrl = environment.apiUrl;
   members = signal<Member[]>([]);
 
   getMembers() {
     return this.http.get<Member[]>(this.baseUrl + 'users').subscribe({
-      next: (members) => this.members.set(members),
+      next: (members) => this.members.set((members)),
     });
   }
+  // getMembers() {
+  //   return this.http.get<Member[]>(this.baseUrl + 'users').pipe(
+  //         map((user) => {
+  //           if(user.username)
+  //           return user;
+  //         })
+  //       );
+  // }
 
   getMember(username: string) {
     const member = this.members().find((x) => x.username === username);

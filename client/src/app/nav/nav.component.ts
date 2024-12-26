@@ -4,7 +4,7 @@ import { AccountService } from '../_services/account.service';
 import { NgIf } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Toast, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',
@@ -20,7 +20,7 @@ export class NavComponent {
   model : any = {};
 
   login(){
-    console.log("IN Login");
+   
     
     this.accountService.login(this.model).subscribe({
       next : () => {

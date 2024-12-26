@@ -31,7 +31,8 @@ public class AccountController(DataContext context, ITokenInterface tokenService
         {
             Username = user.UserName,
             Token = tokenService.CreateToken(user),
-            KnownAs = user.KnownAs
+            KnownAs = user.KnownAs,
+            Gender = user.Gender
         };
     }
 
@@ -39,7 +40,9 @@ public class AccountController(DataContext context, ITokenInterface tokenService
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         
-        var user = await context.Users.FirstOrDefaultAsync(x => x.UserName.ToLower() == loginDto.Username.ToLower());
+        var user = await context.Users
+                    .Include(x => x.Photos)
+                    .FirstOrDefaultAsync(x => x.UserName.ToLower() == loginDto.Username.ToLower());
 
         if (user == null) return Unauthorized("Invalid User");
 
@@ -51,13 +54,14 @@ public class AccountController(DataContext context, ITokenInterface tokenService
         {
             if (ComputedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
         }
-
+        
         return new UserDto
         {
             Username = user.UserName,
             Token = tokenService.CreateToken(user),
             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
-            KnownAs = user.KnownAs
+            KnownAs = user.KnownAs,
+            Gender = user.Gender
         };
     }
 

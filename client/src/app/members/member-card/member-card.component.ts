@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { Member } from '../../_models/members';
 import { RouterLink } from '@angular/router';
+import { LikesService } from '../../_services/likes.service';
 
 @Component({
   selector: 'app-member-card',
@@ -10,5 +11,20 @@ import { RouterLink } from '@angular/router';
   styleUrl: './member-card.component.css'
 })
 export class MemberCardComponent {
+  private likeService = inject(LikesService);
   member = input.required<Member>();
+  hasLiked = computed(()=> this.likeService.likeIds().includes(this.member().id))
+  // computed because we dont need to update hasLiked just update likeIds()
+  // and it will be computed and hasLiked will be update ... computed is a Signal
+  toggleLike(){
+    this.likeService.toggleLike(this.member().id).subscribe({
+      next : () => {
+        if(this.hasLiked()){
+          this.likeService.likeIds.update(ids => ids.filter(x => x!== this.member().id))
+        }else{
+          this.likeService.likeIds.update(ids => [...ids , this.member().id])
+        }
+      }
+    })
+  }
 }

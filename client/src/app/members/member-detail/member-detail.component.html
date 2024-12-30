@@ -1,8 +1,8 @@
-@if (member) {
 <div class="row">
     <div class="col-4">
         <div class="card">
-            <img src="{{member.photoUrl || '/assets/user.png'}}" alt="{{member.knownAs}}" class="card-img img-thumbnail">
+            <img src="{{member.photoUrl || '/assets/user.png'}}" alt="{{member.knownAs}}"
+                class="card-img img-thumbnail">
             <div class="card-body">
                 <div>
                     <strong>Loaction : </strong>
@@ -15,35 +15,36 @@
                 <div>
                     <strong>Last Actice : </strong>
                     <p>{{member.lastActive}}</p>
-                </div>  
+                </div>
                 <div>
                     <strong>Member Since : </strong>
                     <p>{{member.created}}</p>
-                </div>  
+                </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">
                     <button class="btn btn-primary">Like</button>
-                    <button class="btn btn-success">Messages</button>
+                    <button class="btn btn-success" (click)="selectTab('Messages')">Messages</button>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-8">
-        <tabset class="member-tabs">
-            <tab heading="About {{member.knownAs}}">
+        <tabset class="member-tabs" #memberTabs>
+            <tab heading="About {{member.knownAs}}" (selectTab)="OnTabActivated($event)">
                 <h4>Description</h4>
                 <p>{{member.introduction}}</p>
                 <h4>Looking For</h4>
                 <p>{{member.lookingFor}}</p>
             </tab>
-            <tab heading="Photos">
-               <p>photos will go here</p>
+            <tab heading="Photos" (selectTab)="OnTabActivated($event)">
+                <p>photos will go here</p>
             </tab>
-            <tab heading="Messages">
-               <p>Messages will go here</p>
+            <tab heading="Messages" (selectTab)="OnTabActivated($event)">
+                <app-member-messages [username]="member.username" 
+                (updateMessage)="onUpdateMessages($event)"
+                [messages]="messages"></app-member-messages>
             </tab>
         </tabset>
     </div>
 </div>
-}

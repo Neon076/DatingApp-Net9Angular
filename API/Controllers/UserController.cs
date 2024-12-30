@@ -40,7 +40,7 @@ public class UsersController(IUserRespository userRespository , IMapper mapper ,
 
         if(user == null) return NotFound();
 
-        return user;
+        return Ok(user);
     }
     [HttpGet("{username}")] // /api/users/{name}
 
@@ -50,7 +50,7 @@ public class UsersController(IUserRespository userRespository , IMapper mapper ,
 
         if(user == null) return NotFound();
 
-        return user;
+        return Ok(user);
     }
 
     [HttpPut]

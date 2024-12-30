@@ -10,23 +10,32 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { EditMemberComponent } from './members/edit-member/edit-member.component';
 import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { memberDetailResolver } from './_resolver/member-detail.resolver';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',
-    canActivate : [authGuard],
+    canActivate: [authGuard],
     children: [
       { path: 'members', component: MemberListComponent },
-      { path: 'members/:username', component: MemberDetailComponent },
-      { path: 'member/edit', component: EditMemberComponent, canDeactivate : [preventUnsavedChangesGuard] },
+      {
+        path: 'members/:username',
+        component: MemberDetailComponent,
+        resolve: { member: memberDetailResolver },
+      },
+      {
+        path: 'member/edit',
+        component: EditMemberComponent,
+        canDeactivate: [preventUnsavedChangesGuard],
+      },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MesagesComponent },
     ],
   },
-  {path : 'errors',component : TestErrorComponent},
-  {path : 'not-found',component : NotFoundComponent},
-  {path : 'server-error',component : ServerErrorComponent},
+  { path: 'errors', component: TestErrorComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'server-error', component: ServerErrorComponent },
   { path: '**', component: HomeComponent, pathMatch: 'full' },
 ];

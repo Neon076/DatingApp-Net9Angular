@@ -3,27 +3,34 @@ using System.Security.Claims;
 using System.Text;
 using API.Entities;
 using API.interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.services;
 
-public class TokenService (IConfiguration config): ITokenInterface
+public class TokenService(IConfiguration config, UserManager<AppUser> userManager) : ITokenInterface
 {
-    public string CreateToken(AppUser user)
+    public async Task<string> CreateToken(AppUser user)
     {
         var tokenKey = config["TokenKey"] ?? throw new Exception("Cannot acces token key from appsettings");
-        if(tokenKey.Length < 64) throw new Exception("Tokenkey must be longer");
+        if (tokenKey.Length < 64) throw new Exception("Tokenkey must be longer");
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
 
+        if (user.UserName == null) throw new Exception("No username for user");
         var claims = new List<Claim>{
             new(ClaimTypes.NameIdentifier , user.Id.ToString()),
             new(ClaimTypes.Name , user.UserName)
         };
 
-        var creds = new SigningCredentials(key , SecurityAlgorithms.HmacSha512Signature);
+        var roles = await userManager.GetRolesAsync(user);
 
-        var tokenDescriptor = new SecurityTokenDescriptor{
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
             Subject = new ClaimsIdentity(claims),
             Expires = DateTime.UtcNow.AddDays(2),
             SigningCredentials = creds

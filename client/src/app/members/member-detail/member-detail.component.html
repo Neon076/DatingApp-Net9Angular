@@ -38,12 +38,17 @@
                 <p>{{member.lookingFor}}</p>
             </tab>
             <tab heading="Photos" (selectTab)="OnTabActivated($event)">
-                <p>photos will go here</p>
+                <carousel>
+                    @for (photo of member.photos; track $index) {
+
+                    <slide>
+                        <img src="{{photo.url}}" alt="{{member.username}}" style="display: block; width: 100%;">
+                    </slide>
+                    }
+                </carousel>
             </tab>
             <tab heading="Messages" (selectTab)="OnTabActivated($event)">
-                <app-member-messages [username]="member.username" 
-                (updateMessage)="onUpdateMessages($event)"
-                [messages]="messages"></app-member-messages>
+                <app-member-messages [username]="member.username"></app-member-messages>
             </tab>
         </tabset>
     </div>

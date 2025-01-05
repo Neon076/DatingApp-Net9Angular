@@ -25,7 +25,7 @@ public class AccountController(UserManager<AppUser> userManager, ITokenInterface
         // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(resigterDTO.Password));
         // user.PasswordSalt = hmac.Key;
 
-        var result = await userManager.Creat    eAsync(user, resigterDTO.Password);
+        var result = await userManager.CreateAsync(user, resigterDTO.Password);
 
         if (!result.Succeeded) return BadRequest(result.Errors);
 

@@ -51,11 +51,6 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserResposit
         return await PagedList<MembersDto>.CreateAsync(query.ProjectTo<MembersDto>(mapper.ConfigurationProvider), userParams.PageNumber, userParams.PageSize);
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
-
     public void UpdateUser(AppUser user)
     {
         context.Entry(user).State = EntityState.Modified;

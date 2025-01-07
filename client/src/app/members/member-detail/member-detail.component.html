@@ -1,10 +1,20 @@
 <div class="row">
     <div class="col-4">
         <div class="card">
-            <img src="{{member.photoUrl || '/assets/user.png'}}" alt="{{member.knownAs}}"
+            <div class="div-img">
+                <img src="{{member.photoUrl || '/assets/user.png'}}" alt="{{member.knownAs}}"
                 class="card-img img-thumbnail">
+                @if (hasLiked()) {
+                    <i class="fa fa-heart ms-2 heart" style="color: red;"></i>
+                    }
+            </div>
             <div class="card-body">
                 <div>
+                    @if (isOnline()) {
+                    <div>
+                        <i class="fa fa-user-circle text-success"> Online Now</i>
+                    </div>
+                    }
                     <strong>Loaction : </strong>
                     <p>{{member.city}} , {{member.country}}</p>
                 </div>
@@ -14,16 +24,16 @@
                 </div>
                 <div>
                     <strong>Last Actice : </strong>
-                    <p>{{member.lastActive}}</p>
+                    <p>{{member.lastActive | timeago }}</p>
                 </div>
                 <div>
                     <strong>Member Since : </strong>
-                    <p>{{member.created}}</p>
+                    <p>{{member.created | date: 'dd/MM/yyyy'}}</p>
                 </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">
-                    <button class="btn btn-primary">Like</button>
+                    <button class="btn btn-primary" (click)="toggleLike()">Like</button>
                     <button class="btn btn-success" (click)="selectTab('Messages')">Messages</button>
                 </div>
             </div>
@@ -32,18 +42,23 @@
     <div class="col-8">
         <tabset class="member-tabs" #memberTabs>
             <tab heading="About {{member.knownAs}}" (selectTab)="OnTabActivated($event)">
-                <h4>Description</h4>
-                <p>{{member.introduction}}</p>
-                <h4>Looking For</h4>
-                <p>{{member.lookingFor}}</p>
+                @if(member.introduction && member.lookingFor){
+                    
+                    <h4>Description</h4>
+                    <p>{{member.introduction}}</p>
+                    <h4>Looking For</h4>
+                    <p>{{member.lookingFor}}</p>
+                }@else {
+                    <h5 class="mt-4 mx-2">No information added by member yet!</h5>
+                }
             </tab>
             <tab heading="Photos" (selectTab)="OnTabActivated($event)">
-                <carousel>
+                <carousel [isAnimated]="true">
                     @for (photo of member.photos; track $index) {
 
-                    <slide>
-                        <img src="{{photo.url}}" alt="{{member.username}}" style="display: block; width: 100%;">
-                    </slide>
+                        <slide>
+                            <img src="{{photo.url}}" alt="first slide" style="display: block; width: 100%; max-height: 38rem;">
+                          </slide>
                     }
                 </carousel>
             </tab>

@@ -25,10 +25,12 @@ export class AccountService {
     return [];
   });
   login(model: any) {
+    
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((user) => {
         if (user) {
           this.setCurrentUser(user);
+          console.log('Roles : ', this.roles());
         }
       })
     );

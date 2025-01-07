@@ -12,3 +12,14 @@
     padding: 10px 15px;
     background-color: #fff;
 }
+
+.div-img{
+    position: relative;
+}
+
+.heart{
+    position: absolute;
+    left: 40px;
+    bottom: 45px;
+    font-size:xx-large
+}

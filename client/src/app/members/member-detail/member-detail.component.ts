@@ -1,27 +1,29 @@
 import {
   Component,
+  computed,
   Inject,
   inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from '../../_models/members';
 import { TabDirective, TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
 import { MemberMessagesComponent } from '../member-messages/member-messages.component';
-import { Message } from '../../_models/message';
 import { MessageService } from '../../_services/message.service';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AccountService } from '../../_services/account.service';
-import { take } from 'rxjs';
 import { HubConnectionState } from '@microsoft/signalr';
+import { PresenceService } from '../../_services/presence.service';
+import { LikesService } from '../../_services/likes.service';
+import { TimeagoModule} from 'ngx-timeago';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [TabsModule, MemberMessagesComponent, CarouselModule],
+  imports: [TabsModule, MemberMessagesComponent, CarouselModule,TimeagoModule , DatePipe],
   templateUrl: './member-detail.component.html',
   styleUrl: './member-detail.component.css',
 })
@@ -32,9 +34,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   private messageService = inject(MessageService);
   private accountService = inject(AccountService);
   private route = inject(ActivatedRoute);
+  private presenceService = inject(PresenceService);
+  likesService = inject(LikesService);
   private router = inject(Router);
   member: Member = {} as Member;
   activateTab?: TabDirective;
+  isOnline = computed(() =>
+    this.presenceService.onlineUsers().includes(this.member.username)
+  );
+  hasLiked = computed(() =>
+    this.likesService.likeIds().includes(this.member.id)
+  );
 
   ngOnInit(): void {
     this.route.data.subscribe({
@@ -59,7 +69,19 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       if (messageTab) messageTab.active = true;
     }
   }
-
+  toggleLike() {
+    this.likesService.toggleLike(this.member.id).subscribe({
+      next: () => {
+        if (this.hasLiked()) {
+          this.likesService.likeIds.update((ids) =>
+            ids.filter((x) => x !== this.member.id)
+          );
+        } else {
+          this.likesService.likeIds.update((ids) => [...ids, this.member.id]);
+        }
+      },
+    });
+  }
   onRouteParamsChange() {
     const user = this.accountService.currentUser();
     if (!user) return;

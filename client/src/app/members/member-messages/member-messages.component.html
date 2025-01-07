@@ -18,12 +18,12 @@
                     <div class="chat-body">
                         <div class="header">
                             <small class="text-muted">
-                                <span class="fa fa-clock-o">{{message.messageSent}}</span>
+                                <span class="fa fa-clock-o">{{message.messageSent | timeago}}</span>
                                 @if(!message.dateRead && message.senderUsername !== username()){
-                                <span class="text-danger">(Unread)</span>
+                                <span class="text-danger"> (Unread)</span>
                                 }
                                 @if(message.dateRead && message.senderUsername !== username()){
-                                <span class="text-success">(Read {{message.messageSent}})</span>
+                                <span class="text-success"> (Read {{message.messageSent | timeago}})</span>
                                 }
                             </small>
                         </div>

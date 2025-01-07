@@ -12,9 +12,9 @@ export class BusyService {
     this.busyReqeustCount++;
     this.spinnerSevice.show(undefined, {
       type: 'square-jelly-box',
-      bdColor: 'rgba(0, 0, 0, 0.8)',
-      color: '#fff',
-      fullScreen : false
+      bdColor: 'rgba(252, 251, 251,0.2)',
+      color: 'rgba(15, 14, 14, 0.87)',
+      fullScreen : true
     });
   }
 

@@ -22,6 +22,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserResposit
     {
         return await context.Users
         .Where(x => x.UserName == username)
+        .IgnoreQueryFilters()
         .ProjectTo<MembersDto>(mapper.ConfigurationProvider)
         .SingleOrDefaultAsync();
     }
@@ -74,5 +75,14 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserResposit
         .Where(x => x.Id == id)
         .ProjectTo<MembersDto>(mapper.ConfigurationProvider)
         .SingleOrDefaultAsync();
+    }
+
+    public async Task<AppUser?> GetuserByPhotoId(int photoId)
+    {
+        return await context.Users
+            .Include(p => p.Photos)
+            .IgnoreQueryFilters()
+            .Where(x => x.Photos.Any(p => p.Id == photoId))
+            .FirstOrDefaultAsync();
     }
 }

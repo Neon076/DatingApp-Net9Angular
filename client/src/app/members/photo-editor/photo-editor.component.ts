@@ -6,6 +6,7 @@ import { AccountService } from '../../_services/account.service';
 import { environment } from '../../../environments/environment';
 import { Photo } from '../../_models/photos';
 import { MembersService } from '../../_services/members.service';
+import { AdminService } from '../../_services/admin.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -24,6 +25,8 @@ export class PhotoEditorComponent implements OnInit {
   memberChange = output<Member>();
   ngOnInit(): void {
     this.initializeUploader();
+    console.log(this.member());
+    
   }
 
   fileOverBase(e: any) {

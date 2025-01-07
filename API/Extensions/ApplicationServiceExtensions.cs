@@ -14,7 +14,7 @@ public static class ApplicationServiceExtensions
         services.AddControllers();
         services.AddDbContext<DataContext>(opt =>
         {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+            opt.UseSqlServer(config.GetConnectionString("DefaultConnection"));
         });
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         services.AddOpenApi();
@@ -26,6 +26,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IPhotoService , PhotoService>();
         services.AddScoped<ILikesRepository , LikesRepository>();
         services.AddScoped<IMessageRepository , MessageRepository>();
+        services.AddScoped<IPhotoRepository , PhotoRepository>();
         services.AddScoped<IUnitOfWork , UnitOfWork>();
         services.AddScoped<LogUserActitvity>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

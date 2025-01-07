@@ -4,10 +4,13 @@
 
     <div class="text-center">
         <h1>Find Your Match</h1>
+        @if(accountService.currentUser()){
+            <p class="lead" routerLink="/members">Welcome to DatingApp were you can find your perfect match...</p>
+            <button class="btn btn-info btn-lg btn-me" >Find Matches</button>
+        }
         <p class="lead">Come on in to view your match... all you need to do is to sign up</p>
         <div class="text-center">
             <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2">Register</button>
-            <button class="btn btn-info btn-lg me-2">Learn More</button>
         </div>
     </div>
     }@else {

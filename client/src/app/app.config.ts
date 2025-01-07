@@ -14,6 +14,7 @@ import { jwtInterceptor } from './_interceptor/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { loadingInterceptor } from './_interceptor/loading.interceptor';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TimeagoModule } from "ngx-timeago";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +28,6 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       timeOut: 3000,
     }),
-    importProvidersFrom(NgxSpinnerModule, ModalModule.forRoot()),
+    importProvidersFrom(NgxSpinnerModule, ModalModule.forRoot(),TimeagoModule.forRoot()),
   ],
 };

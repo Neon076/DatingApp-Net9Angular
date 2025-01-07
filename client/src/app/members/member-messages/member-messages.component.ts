@@ -7,11 +7,12 @@ import {
 } from '@angular/core';
 import { MessageService } from '../../_services/message.service';
 import { FormsModule, NgForm } from '@angular/forms';
+import { TimeagoModule } from 'ngx-timeago';
 
 @Component({
   selector: 'app-member-messages',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule , TimeagoModule],
   templateUrl: './member-messages.component.html',
   styleUrl: './member-messages.component.css',
 })

@@ -10,7 +10,7 @@ import { AccountService } from '../_services/account.service';
 
 @Directive({
   selector: '[appHasRole]', //to use we do *appHasRole
-  standalone:true,
+  standalone: true,
 })
 export class HasRoleDirective implements OnInit {
   @Input() appHasRole: string[] = [];

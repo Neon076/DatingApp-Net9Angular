@@ -85,10 +85,12 @@ public class UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoServi
             PublicId = result.PublicId
         };
 
-        if (user.Photos.Count == 0) photo.IsMain = true;
         user.Photos.Add(photo);
-
-        if (await unitOfWork.Complete()) return CreatedAtAction(nameof(GetUser), new { username = user.UserName }, mapper.Map<PhotoDto>(photo));
+    
+        if (await unitOfWork.Complete())
+        {
+            return CreatedAtAction(nameof(GetUser), new { username = user.UserName }, mapper.Map<PhotoDto>(photo));
+        }
 
         return BadRequest("Problem Adding photo");
     }
@@ -123,7 +125,7 @@ public class UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoServi
 
         if (user == null) return BadRequest("User not found");
 
-        var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+        var photo = await unitOfWork.PhotoRepository.GetPhotoById(photoId);
 
         if (photo == null || photo.IsMain) return BadRequest("This photo cannot be deleted");
 
